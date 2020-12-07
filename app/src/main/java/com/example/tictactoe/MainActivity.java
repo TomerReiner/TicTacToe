@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.itemLogOut)
+        if (item.getItemId() == R.id.itemLogOut) {
+            //TODO-Log Out
+        }
+        return true;
     }
 }

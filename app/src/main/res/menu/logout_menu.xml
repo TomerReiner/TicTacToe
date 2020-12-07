@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="itemLogOut"
+        android:id="@+id/itemLogOut"
+        android:icon="@drawable/ic_logout"
         android:title="Log Out"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_logout" />
+        app:showAsAction="ifRoom" />
     <!-- TODO-Log Out -->
 
 </menu>
