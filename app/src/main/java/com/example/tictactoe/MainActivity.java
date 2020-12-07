@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logInDialog = new Dialog(this);
+        signUpDialog = new Dialog(this);
+
         createLogInDialog();
     }
 
@@ -51,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
      * TODO-The dialog won't show if the user is already logged in.
      */
     private void createLogInDialog() {
-        logInDialog = new Dialog(this);
         logInDialog.setContentView(R.layout.custom_log_in_dialog);
         logInDialog.setCancelable(false);
+
 
         EditText etLogInUsername = logInDialog.findViewById(R.id.etLogInUsername);
         EditText etLogInPassword = logInDialog.findViewById(R.id.etLogInPassword);
@@ -88,9 +91,10 @@ public class MainActivity extends AppCompatActivity {
      * and if so it will enter the user to the app.
      */
     private void createSignUpDialog() {
-        signUpDialog = new Dialog(this);
         signUpDialog.setContentView(R.layout.custom_sign_up_dialog);
         signUpDialog.setCancelable(false);
+
+        signUpDialog.setTitle("Sign Up");
 
         EditText etSignUpUsername = signUpDialog.findViewById(R.id.etSignUpUsername);
         EditText etSignUpPassword = signUpDialog.findViewById(R.id.etSignUpPassword);
