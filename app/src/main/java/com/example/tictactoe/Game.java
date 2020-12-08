@@ -1,7 +1,7 @@
 package com.example.tictactoe;
 
 public class Game {
-
+//TODO-add check game over and more methods
     private String[][] board;
 
     public static final int WIDTH = 3;
