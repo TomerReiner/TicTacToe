@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO-condition if the user name is valid(not used yet)
+                //TODO-condition if the user name is valid
                 //TODO-check password valid
 
                 signUpDialog.dismiss();
