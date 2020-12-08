@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 String userName = etLogInUsername.getText().toString();
                 String password = etLogInPassword.getText().toString();
 
-                User user = new User(userName, password);
+                User user = new User(userName, password, 0, 0, 0, 0, 0, 0, 0, 0);
                 // TODO-On Login.
                 logInDialog.dismiss(); // This is temporary.
             }
