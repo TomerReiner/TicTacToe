@@ -1,17 +1,12 @@
 package com.example.tictactoe;
 
 public class Game {
-//TODO-add check game over and more methods
-    private String[][] board;
-
     public static final int WIDTH = 3;
     public static final int HEIGHT = 3;
-
     public static final int GAME_IS_STILL_GOING_ON = Integer.MIN_VALUE;
     public static final int TIE = 0;
     public static final int CIRCLE_WON = -10;
     public static final int X_WON = 10;
-
     public static final String CIRCLE_TURN = "Circle's Turn";
     public static final String X_TURN = "X's Turn";
     public static final String CIRCLE_WON_GREET = "Circle Won!!!!!!";
@@ -19,6 +14,8 @@ public class Game {
     public static final String TIE_GREET = "Tie.";
     public static final String CIRCLE = "O";
     public static final String X = "X";
+//TODO-add check game over and more methods
+    private String[][] board;
 
     public Game() {
         this.board = new String[WIDTH][HEIGHT];
@@ -39,13 +36,12 @@ public class Game {
         this.board[i][j] = s;
     }
 
-    public void setBoard(String[][] board) {
-        this.board = board;
-    }
-
-
     public String[][] getBoard() {
         return this.board;
+    }
+
+    public void setBoard(String[][] board) {
+        this.board = board;
     }
 
     /**
@@ -100,5 +96,55 @@ public class Game {
             return CIRCLE_WON_GREET;
         return victoryStatus == X_WON ? X_WON_GREET : TIE_GREET;
 
+    }
+
+    /**
+     * @return The integer the char represents.
+     */
+    public int charToInt(char c) {
+        if (c == '0')
+            return 0;
+        if (c == '1')
+            return 1;
+        return 2;
+    }
+
+    /**
+     * This function returns the id of the item based on the location of it.
+     * @param i row index.
+     * @param j column index.
+     * @return The match id based on i and j.
+     * @example getId(1, 2) => R.id.btn12
+     */
+    public int getId(int i, int j) {
+        switch (i) {
+            case 0:
+                switch (j) {
+                    case 0:
+                        return R.id.btn00;
+                    case 1:
+                        return R.id.btn01;
+                    default:
+                        return R.id.btn02;
+                }
+            case 1:
+                switch (j) {
+                    case 0:
+                        return R.id.btn10;
+                    case 1:
+                        return R.id.btn11;
+                    default:
+                        return R.id.btn12;
+                }
+            default:
+                switch (j) {
+                    case 0:
+                        return R.id.btn20;
+                    case 1:
+                        return R.id.btn21;
+                    default:
+                        return R.id.btn22;
+                }
+        }
     }
 }

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 // TODO-intent data
+
 public class PlayerVsPlayerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout mainLayoutPlayerVsPlayer; // The main layout.
@@ -67,7 +68,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
                 btn.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
                 btn.setTextSize(40);
                 btn.setTag(i + " " + j); // The tag of each element will be: row column.
-                btn.setId(getId(i, j)); // Set id for the button.
+                btn.setId(game.getId(i, j)); // Set id for the button.
                 game.setItemAt("", i, j);
                 btn.setOnClickListener(this);
 
@@ -116,56 +117,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
     }
 
     /**
-     * @return The integer the char represents
-     */
-    private int charToInt(char c) {
-        if (c == '0')
-            return 0;
-        if (c == '1')
-            return 1;
-        return 2;
-    }
-
-    /**
-     * This function returns the id of the item based on the location of it.
-     * @param i row index.
-     * @param j column index.
-     * @return The match id based on i and j.
-     * @example getId(1, 2) => R.id.btn12
-     */
-    private int getId(int i, int j) {
-        switch (i) {
-            case 0:
-                switch (j) {
-                    case 0:
-                        return R.id.btn00;
-                    case 1:
-                        return R.id.btn01;
-                    default:
-                        return R.id.btn02;
-                }
-            case 1:
-                switch (j) {
-                    case 0:
-                        return R.id.btn10;
-                    case 1:
-                        return R.id.btn11;
-                    default:
-                        return R.id.btn12;
-                }
-            default:
-                switch (j) {
-                    case 0:
-                        return R.id.btn20;
-                    case 1:
-                        return R.id.btn21;
-                    default:
-                        return R.id.btn22;
-                }
-        }
-    }
-
-    /**
      * This function sets the button background to be x or circle.
      */
     private void manageGame(Button btn) {
@@ -176,7 +127,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
             if (btn.getText().toString().equals("")) { // If the button has not pressed yet.
                 btn.setText(Game.X);
                 xTurn = false; // Circle's turn.
-                game.setItemAt(Game.X, charToInt(btn.getTag().toString().charAt(0)), charToInt(btn.getTag().toString().charAt(2))); // X took the match index.
+                game.setItemAt(Game.X, game.charToInt(btn.getTag().toString().charAt(0)), game.charToInt(btn.getTag().toString().charAt(2))); // X took the match index.
                 tvGameStatus.setText(Game.CIRCLE_TURN);
                 btn.setClickable(false);
                 handleGameOver();
@@ -186,7 +137,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
             if (btn.getText().toString().equals("")) { // If the button has not pressed yet.
                 btn.setText(Game.CIRCLE);
                 xTurn = true; // X's turn.
-                game.setItemAt(Game.CIRCLE, charToInt(btn.getTag().toString().charAt(0)), charToInt(btn.getTag().toString().charAt(2))); // Circle took the match index.
+                game.setItemAt(Game.CIRCLE, game.charToInt(btn.getTag().toString().charAt(0)), game.charToInt(btn.getTag().toString().charAt(2))); // Circle took the match index.
                 tvGameStatus.setText(Game.X_TURN);
                 btn.setClickable(false);
                 handleGameOver();
@@ -213,7 +164,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
         if (isGameOver) {
             for (int i = 0; i < Game.WIDTH; i++) {
                 for (int j = 0; j < Game.HEIGHT; j++) {
-                    Button btn = findViewById(getId(i, j));
+                    Button btn = findViewById(game.getId(i, j));
                     btn.setClickable(false);
                 }
             }

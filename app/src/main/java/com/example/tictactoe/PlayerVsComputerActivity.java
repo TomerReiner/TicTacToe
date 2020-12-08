@@ -80,7 +80,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                 btn.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
                 btn.setTextSize(40);
                 btn.setTag(i + " " + j); // The tag of each element will be: row column.
-                btn.setId(getId(i, j)); // Set id for the button.
+                btn.setId(game.getId(i, j)); // Set id for the button.
                 game.setItemAt("", i, j);
                 btn.setOnClickListener(this);
 
@@ -161,57 +161,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
     } // TODO-create custom layout?
 
     /**
-     * @return The integer the char represents
-     */
-    private int charToInt(char c) {
-        if (c == '0')
-            return 0;
-        if (c == '1')
-            return 1;
-        return 2;
-    }
-
-
-    /**
-     * This function returns the id of the item based on the location of it.
-     * @param i row index.
-     * @param j column index.
-     * @return The match id based on i and j.
-     * @example getId(1, 2) => R.id.btn12
-     */
-    private int getId(int i, int j) {
-        switch (i) {
-            case 0:
-                switch (j) {
-                    case 0:
-                        return R.id.btn00;
-                    case 1:
-                        return R.id.btn01;
-                    default:
-                        return R.id.btn02;
-                }
-            case 1:
-                switch (j) {
-                    case 0:
-                        return R.id.btn10;
-                    case 1:
-                        return R.id.btn11;
-                    default:
-                        return R.id.btn12;
-                }
-            default:
-                switch (j) {
-                    case 0:
-                        return R.id.btn20;
-                    case 1:
-                        return R.id.btn21;
-                    default:
-                        return R.id.btn22;
-                }
-        }
-    }
-
-    /**
      * This function sets the button background to be x or circle and manages the game.
      */
     private void manageGame(Button btn) {
@@ -223,7 +172,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                 btn.setText(Game.CIRCLE);
                 xTurn = true; // X's turn.
                 String btnTag = btn.getTag().toString(); // The tag will be as my explanation: row_index space column index. This means that row_index = btnTag[0] and column_index = btnTag[2].
-                game.setItemAt(Game.CIRCLE, charToInt(btnTag.charAt(0)), charToInt(btnTag.charAt(2))); // X took the match index.
+                game.setItemAt(Game.CIRCLE, game.charToInt(btnTag.charAt(0)), game.charToInt(btnTag.charAt(2))); // X took the match index.
                 tvGameStatus.setText(Game.X_TURN);
                 btn.setClickable(false);
                 victoryStatus = checkGameOver();
@@ -243,7 +192,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                         levelOneHandler = new LevelOneHandler(game);
                         levelTwoHandler = new LevelTwoHandler(game);
                         levelThreeHandler = new LevelThreeHandler(game);
-                        Button btnAiChoice = findViewById(getId(locationOfComputersChoice[0], locationOfComputersChoice[1])); // Get the id.
+                        Button btnAiChoice = findViewById(game.getId(locationOfComputersChoice[0], locationOfComputersChoice[1])); // Get the id.
                         btnAiChoice.setText(Game.X);
                         btnAiChoice.setClickable(false);
                         tvGameStatus.setText(Game.CIRCLE_TURN);
@@ -273,7 +222,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         if (isGameOver) {
             for (int i = 0; i < Game.WIDTH; i++) {
                 for (int j = 0; j < Game.HEIGHT; j++) {
-                    Button btn = findViewById(getId(i, j));
+                    Button btn = findViewById(game.getId(i, j));
                     btn.setClickable(false);
                 }
             }
