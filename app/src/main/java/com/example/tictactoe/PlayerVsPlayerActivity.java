@@ -40,8 +40,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
 
         game = new Game();
 
-
-
         xWon = false;
         isPlayerAgainstPlayer = true;
         isGameOver = false;
@@ -55,7 +53,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         int width = metrics.widthPixels;
-
 
         for (int i = 0; i < Game.WIDTH; i++) {
             LinearLayout newLayout = new LinearLayout(this);
@@ -76,9 +73,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
             }
             mainLayoutPlayerVsPlayer.addView(newLayout);
         }
-
         createStatusLayout(); // Create the status layout.
-
     }
 
     @Override
@@ -200,7 +195,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         victoryStatus = checkGameOver();
-
         if (!isGameOver)
             manageGame(((Button) v));
         else

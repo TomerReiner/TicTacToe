@@ -53,7 +53,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         levelTwoHandler = new LevelTwoHandler(game);
         levelThreeHandler = new LevelThreeHandler(game);
 
-
         xWon = false;
         isPlayerAgainstPlayer = true;
         isGameOver = false;
@@ -67,7 +66,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         int width = metrics.widthPixels;
-
 
         for (int i = 0; i < Game.WIDTH; i++) {
             LinearLayout newLayout = new LinearLayout(this);
@@ -88,7 +86,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
             }
             mainLayoutPlayerVsComputer.addView(newLayout);
         }
-
         createStatusLayout(); // Create the status layout.
         createSelectLevelDialog();
     }
@@ -276,7 +273,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
         victoryStatus = checkGameOver();
-
         if (!isGameOver)
             manageGame(((Button) v));
         else
