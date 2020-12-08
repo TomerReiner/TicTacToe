@@ -25,19 +25,21 @@
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnMoveToPlayerVsPlayer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="moveToGame"
             android:text="Player Vs Player"
             android:textAllCaps="false"
             android:textSize="20sp"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnMoveToPlayerVsComputer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="moveToGame"
             android:text="Player Vs Computer"
             android:textAllCaps="false"
             android:textSize="20sp"/>

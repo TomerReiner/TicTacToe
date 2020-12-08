@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Dialog logInDialog;
     private Dialog signUpDialog;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 String userName = etLogInUsername.getText().toString();
                 String password = etLogInPassword.getText().toString();
 
-                User user = new User(userName, password, 0, 0, 0, 0, 0, 0, 0, 0);
+                user = new User(userName, password, 0, 0, 0, 0, 0, 0, 0, 0);
                 // TODO-On Login.
                 logInDialog.dismiss(); // This is temporary.
             }
@@ -114,4 +117,20 @@ public class MainActivity extends AppCompatActivity {
         signUpDialog.show();
     }
 
+    /**
+     * This function moves the user to the matching game activity.
+     * @param view the button that was pressed
+     */
+    public void moveToGame(View view) {
+        if (view.getId() == R.id.btnMoveToPlayerVsPlayer) { // If the button that was pressed is btnMoveToPlayerVsPlayer.
+            Intent intent = new Intent(MainActivity.this, PlayerVsPlayerActivity.class);
+            intent.putExtra("user", user); // Sending the user data so we will be able to change them.
+            startActivity(intent); // move to PlayerVsPlayerActivity.
+        }
+        else if (view.getId() == R.id.btnMoveToPlayerVsComputer) {
+            Intent intent = new Intent(MainActivity.this, PlayerVsComputerActivity.class);
+            intent.putExtra("user", user); // Sending the user data so we will be able to change them.
+            startActivity(intent); // move to PlayerVsComputerActivity.
+        }
+    }
 }

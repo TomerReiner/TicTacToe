@@ -1,9 +1,11 @@
 package com.example.tictactoe;
 
+import java.io.Serializable;
+
 /**
  * This class presents a user.
  */
-public class User {
+public class User implements Serializable {
 
     private String userName; // The userName.
     private String password; // The password.
