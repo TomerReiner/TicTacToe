@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 public class LevelOneHandler extends Level{
 
-
     public LevelOneHandler(Game game) {
         super(game);
     }
-
 
     /**
      * This function selects random movement for the computer's move.
