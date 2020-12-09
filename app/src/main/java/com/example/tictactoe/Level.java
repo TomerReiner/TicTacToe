@@ -22,7 +22,6 @@ public class Level {
         this.game = game;
     }
 
-
     /**
      * This function gets all the available spots in the game board.
      * @return {@link ArrayList} of int[].
