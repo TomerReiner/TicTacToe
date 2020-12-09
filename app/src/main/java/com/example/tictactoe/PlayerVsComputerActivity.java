@@ -185,7 +185,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                     }
                 }
             }
-        }, 700); // We delay the AI's turn to make game look more realistic.
+        }, 1000); // We delay the AI's turn to make game look more realistic.
     }
 
     /**
