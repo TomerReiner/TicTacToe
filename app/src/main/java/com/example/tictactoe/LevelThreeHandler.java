@@ -11,7 +11,7 @@ public class LevelThreeHandler extends Level{
     }
 
     private int miniMax(int depth, boolean isMax) {
-        int win = evaluate();
+        int win = this.evaluate();
 
         if (win != Game.GAME_IS_STILL_GOING_ON)
             return win;
