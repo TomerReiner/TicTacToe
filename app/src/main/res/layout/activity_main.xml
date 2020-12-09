@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/activity_main_shape"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -15,41 +16,37 @@
         android:layout_weight="1"
         android:text="This is a Tic-Tac-Toe game\n\nInstructions:\n\nThere are two modes: \n\n1) Player vs Player:\n\tIn this mode, you play against your friend.\n\n2) Player vs Computer:\n\tIn this mode, you play against the computer.\n\tThere are 3 modes: Easy, Medium and Hard."
         android:textAllCaps="false"
-        android:textSize="18sp" />
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:orientation="horizontal">
+        android:layout_weight="4"
+        android:orientation="vertical">
 
 
         <Button
             android:id="@+id/btnMoveToPlayerVsPlayer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/button_shape"
             android:onClick="moveToGame"
             android:text="Player Vs Player"
             android:textAllCaps="false"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnMoveToPlayerVsComputer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/button_shape"
             android:onClick="moveToGame"
             android:text="Player Vs Computer"
             android:textAllCaps="false"
-            android:textSize="20sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:orientation="horizontal">
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

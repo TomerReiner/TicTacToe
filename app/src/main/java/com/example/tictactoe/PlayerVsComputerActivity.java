@@ -89,12 +89,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         selectLevelDialog.dismiss();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        recreate();
-    }
-
     /**
      * This function creates the status layout.
      * The layout has one text view, which shows the game status.
@@ -246,7 +240,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
             Intent intent = new Intent(PlayerVsComputerActivity.this, GameOverActivity.class); // Move the GameOverActivity after the game ended.
             intent.putExtra("victoryStatus", victoryStatus);
             intent.putExtra("greet", game.getGameOverGreet());
-            startActivityForResult(intent, REQUEST);
+            startActivity(intent);
         }
     }
 

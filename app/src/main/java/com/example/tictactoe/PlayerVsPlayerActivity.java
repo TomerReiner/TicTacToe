@@ -74,12 +74,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
         super.onPause();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        recreate();
-    }
-
     /**
      * This function creates the status layout.
      * The layout has one text view, which shows the game status.
@@ -169,7 +163,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
             Intent intent = new Intent(PlayerVsPlayerActivity.this, GameOverActivity.class); // Move the GameOverActivity after the game ended.
             intent.putExtra("victoryStatus", victoryStatus);
             intent.putExtra("greet", game.getGameOverGreet());
-            startActivityForResult(intent, REQUEST);
+            startActivity(intent);
         }
     }
 

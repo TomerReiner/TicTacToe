@@ -153,5 +153,4 @@ public class Game {
     public int checkGameOver() {
         return this.checkForWin();
     }
-
 }
