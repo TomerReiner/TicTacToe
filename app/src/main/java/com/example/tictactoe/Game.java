@@ -52,7 +52,6 @@ public class Game {
      * and {@link #GAME_IS_STILL_GOING_ON} if the game is still going on.
      */
     public int checkForWin() {
-
         if ((this.board[0][0].equals("X") && this.board[0][1].equals("X") && this.board[0][2].equals("X")) || // If X took the first row.
                 (this.board[1][0].equals("X") && this.board[1][1].equals("X") && this.board[1][2].equals("X")) || // If X took the second row.
                 (this.board[2][0].equals("X") && this.board[2][1].equals("X") && this.board[2][2].equals("X")) || // If X took the third  row.
@@ -81,7 +80,6 @@ public class Game {
         }
         return TIE; // Tie.
     }
-
 
     /**
      * This function checks the game status and returns a matching greet if it was ended.
@@ -147,4 +145,13 @@ public class Game {
                 }
         }
     }
+
+    /**
+     * This function checks if X or Circle won the game
+     * @return {@link #CIRCLE_WON} if circle won, {@link #X_WON} if X won, and {@link #TIE} if there is a tie, otherwise Integer.MIN_VALUE.
+     */
+    public int checkGameOver() {
+        return this.checkForWin();
+    }
+
 }

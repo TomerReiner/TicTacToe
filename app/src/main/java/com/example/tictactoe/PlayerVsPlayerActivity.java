@@ -22,9 +22,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
 
     private TextView tvGameStatus; // This text view will be used to show who's turn is and who won.
 
-    private boolean xWon; // With those booleans we will detect if one of the user won.
-    private boolean isPlayerAgainstPlayer; // true: Player vs Player false: Player vs Computer. When the mode is Player vs Computer, the Computer will be Circle.
-    private boolean isGameOver; // true: the game is over. false: the game is still going on.
     private boolean xTurn; // X begins first. If true, it's X's turn. If false, it's Circle's turn.
 
     private int victoryStatus = Game.TIE; // Game status.
@@ -39,10 +36,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_player_vs_player);
 
         game = new Game();
-
-        xWon = false;
-        isPlayerAgainstPlayer = true;
-        isGameOver = false;
         xTurn = false;
         victoryStatus = Game.TIE;
         // Initialize important game variables.
@@ -112,10 +105,10 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
     }
 
     /**
-     * This function sets the button background to be x or circle.
+     * This function sets the button background to be x or circle and manages the game.
      */
     private void manageGame(Button btn) {
-        victoryStatus = checkGameOver();
+        victoryStatus = game.checkGameOver();
         handleGameOver();
         if (xTurn) { // If it's X's turn.
             handleGameOver();
@@ -142,21 +135,10 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
     }
 
     /**
-     * This function checks if X or Circle won the game
-     * @return Game.CIRCLE_WON if circle won, Game.X_WON if X won, and Game.TIE if there is a tie, otherwise Integer.MIN_VALUE.
-     */
-    private int checkGameOver() {
-        victoryStatus = game.checkForWin();
-        if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) // If the game is over.
-            isGameOver = true;
-        return victoryStatus;
-    }
-
-    /**
      * This function cancels the click option for all the buttons.
      */
     private void cancelButtonClick() {
-        if (isGameOver) {
+        if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) { // If the game is over for any reason.
             for (int i = 0; i < Game.WIDTH; i++) {
                 for (int j = 0; j < Game.HEIGHT; j++) {
                     Button btn = findViewById(game.getId(i, j));
@@ -171,8 +153,8 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
      * If so, it will call {@link #onGameOver}
      */
     private void handleGameOver() {
-        victoryStatus = checkGameOver();
-        if (isGameOver) {
+        victoryStatus = game.checkGameOver();
+        if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) { // If the game is over for any reason.
             onGameOver();
             return;
         }
@@ -191,11 +173,10 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
         }
     }
 
-
     @Override
     public void onClick(View v) {
-        victoryStatus = checkGameOver();
-        if (!isGameOver)
+        victoryStatus = game.checkGameOver();
+        if (victoryStatus == Game.GAME_IS_STILL_GOING_ON)
             manageGame(((Button) v));
         else
             onGameOver();

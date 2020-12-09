@@ -26,9 +26,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
 
     private AlertDialog selectLevelDialog;
 
-    private boolean xWon; // With those booleans we will detect if one of the user won.
-    private boolean isPlayerAgainstPlayer; // true: Player vs Player false: Player vs Computer. When the mode is Player vs Computer, the Computer will be Circle.
-    private boolean isGameOver; // true: the game is over. false: the game is still going on.
     private boolean xTurn; // X begins first. If true, it's X's turn. If false, it's Circle's turn.
 
     private int victoryStatus = Game.TIE; // Game status.
@@ -41,7 +38,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
     private LevelTwoHandler levelTwoHandler;
     private LevelThreeHandler levelThreeHandler;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +49,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         levelTwoHandler = new LevelTwoHandler(game);
         levelThreeHandler = new LevelThreeHandler(game);
 
-        xWon = false;
-        isPlayerAgainstPlayer = true;
-        isGameOver = false;
         xTurn = false;
         victoryStatus = Game.TIE;
         // Initialize important game variables.
@@ -161,7 +154,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
      * This function sets the button background to be x or circle and manages the game.
      */
     private void manageGame(Button btn) {
-        victoryStatus = checkGameOver();
+        victoryStatus = game.checkGameOver();
         handleGameOver();
 
         if (!xTurn) { // If it's Circle's turn.
@@ -172,7 +165,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                 game.setItemAt(Game.CIRCLE, game.charToInt(btnTag.charAt(0)), game.charToInt(btnTag.charAt(2))); // X took the match index.
                 tvGameStatus.setText(Game.X_TURN);
                 btn.setClickable(false);
-                victoryStatus = checkGameOver();
+                victoryStatus = game.checkGameOver();
                 handleGameOver();
             }
         }
@@ -181,7 +174,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
             @Override
             public void run() {
                 // Ai's turn.
-                if (!isGameOver) {
+                if (victoryStatus == Game.GAME_IS_STILL_GOING_ON) {
                     int[] locationOfComputersChoice = getMove(); // Get the location of the computer's choice.
                     xTurn = false;
                     if ((locationOfComputersChoice[0] >= 0 && locationOfComputersChoice[0] < Game.WIDTH) && (locationOfComputersChoice[1] >= 0 && locationOfComputersChoice[1] < Game.HEIGHT)) { // This is prevents ArrayIndexOutOfBoundsException which happens at the end of the game.
@@ -202,21 +195,10 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
     }
 
     /**
-     * This function checks if X or Circle won the game
-     * @return Game.CIRCLE_WON if circle won, Game.X_WON if X won, and Game.TIE if there is a tie, otherwise Integer.MIN_VALUE.
-     */
-    private int checkGameOver() {
-        victoryStatus = game.checkForWin();
-        if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) // If the game is over.
-            isGameOver = true;
-        return victoryStatus;
-    }
-
-    /**
      * This function cancels the click option for all the buttons.
      */
     private void cancelButtonClick() {
-        if (isGameOver) {
+        if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) { // If the game is over for any reason.
             for (int i = 0; i < Game.WIDTH; i++) {
                 for (int j = 0; j < Game.HEIGHT; j++) {
                     Button btn = findViewById(game.getId(i, j));
@@ -243,19 +225,17 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         return levelThreeHandler.findBestMove();
     }
 
-
     /**
      * This function checks if the game is over.
      * If so, it will call {@link #onGameOver}
      */
     private void handleGameOver() {
-        victoryStatus = checkGameOver();
-        if (isGameOver) {
+        victoryStatus = game.checkGameOver();
+        if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) { // If the game is over for any reason.
             onGameOver();
             return;
         }
     }
-
 
     /**
      * This function is called When the game is over,
@@ -272,8 +252,8 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-        victoryStatus = checkGameOver();
-        if (!isGameOver)
+        victoryStatus = game.checkGameOver();
+        if (victoryStatus == Game.GAME_IS_STILL_GOING_ON)
             manageGame(((Button) v));
         else
             onGameOver();
