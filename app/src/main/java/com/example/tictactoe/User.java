@@ -20,7 +20,7 @@ public class User implements Serializable {
     private int numOfMediumModeGames; // Total number of medium mode games player vs computer mode.
     private int numOfHardModeGames; // Total number of hard mode games player vs computer mode.
 
-
+    // TODO-user data class
     public User(String userName, String password, int numOfPlayerVsPlayerGames, int numOfPlayerVsComputerGames, int numOfVictories, int nunOfDefeats, int numOfTies, int numOfEasyModeGame, int numOfMediumModeGames, int numOfHardModeGames) {
         this.userName = userName;
         this.password = password;

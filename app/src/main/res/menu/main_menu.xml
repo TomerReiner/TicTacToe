@@ -9,4 +9,15 @@
         app:showAsAction="ifRoom" />
     <!-- TODO-Log Out -->
 
+    <item
+        android:id="@+id/itemChampionTable"
+        android:icon="@drawable/ic_champions_table"
+        android:title="Champions"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/itemGoHome"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        app:showAsAction="ifRoom" />
 </menu>

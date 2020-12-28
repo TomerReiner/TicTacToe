@@ -1,7 +1,6 @@
 package com.example.tictactoe;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -49,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.itemLogOut) {
             //TODO-Log Out
         }
+        else if (item.getItemId() == R.id.itemChampionTable) {
+            // TODO-move to champions table
+        } // We don't implement what happens when clicking on home icon because we are at home screen.
         return true;
     }
 
