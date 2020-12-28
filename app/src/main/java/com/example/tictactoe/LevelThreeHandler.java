@@ -1,6 +1,6 @@
 package com.example.tictactoe;
 
-public class LevelThreeHandler extends Level{
+public class LevelThreeHandler extends Level {
 
     public LevelThreeHandler(Game game) {
         super(game);
