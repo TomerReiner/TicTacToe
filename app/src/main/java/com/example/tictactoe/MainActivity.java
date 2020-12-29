@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.MailTo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
             //TODO-Log Out
         }
         else if (item.getItemId() == R.id.itemChampionTable) {
-            // TODO-move to champions table
-        } // We don't implement what happens when clicking on home icon because we are at home screen.
+            Intent moveToChampionsTableActivity = new Intent(MainActivity.this, ChampionsTableActivity.class);
+            startActivity(moveToChampionsTableActivity);
+        }
+        // We don't implement what happens when clicking on home icon because we are at home screen.
         return true;
     }
 
@@ -75,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 String userName = etLogInUsername.getText().toString();
                 String password = etLogInPassword.getText().toString();
 
-                user = new User(userName, password, 0, 0, 0, 0, 0, 0, 0, 0);
+                User user = new User(userName, password, new UserData(0, 0, 0));
+
                 // TODO-On Login.
                 logInDialog.dismiss(); // This is temporary.
             }
@@ -84,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
         btnMoveToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createSignUpDialog();
                 logInDialog.dismiss();
+                createSignUpDialog();
             }
         });
         logInDialog.show();
@@ -113,7 +117,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO-condition if the user name is valid
                 //TODO-check password valid
+                String userName = etSignUpUsername.getText().toString();
+                String password = etSignUpPassword.getText().toString();
 
+                User user = new User(userName, password, new UserData(0, 0, 0));
                 signUpDialog.dismiss();
             }
         });
