@@ -25,6 +25,15 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/tvNumOfTies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Number of Ties:"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/tvNumOfWins"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,5 +52,4 @@
         android:text="Number of Defeats:"
         android:textAllCaps="false"
         android:textSize="20sp" />
-<!--        TODO-complete list view and adapter and model-->
 </LinearLayout>
