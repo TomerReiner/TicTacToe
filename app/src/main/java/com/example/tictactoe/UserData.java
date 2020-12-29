@@ -25,9 +25,9 @@ public class UserData {
     }
 
     public void setNumOfVictories(int numOfVictories) {
+        this.numOfVictories = numOfVictories;
         this.totalNumberOfGames = this.numOfVictories + this.numOfTies + this.nunOfDefeats;
         this.percentageOfWins = (double) this.numOfVictories / this.totalNumberOfGames;
-        this.numOfVictories = numOfVictories;
     }
 
     public int getNunOfDefeats() {
@@ -35,9 +35,9 @@ public class UserData {
     }
 
     public void setNunOfDefeats(int nunOfDefeats) {
+        this.nunOfDefeats = nunOfDefeats;
         this.totalNumberOfGames = this.numOfVictories + this.numOfTies + this.nunOfDefeats;
         this.percentageOfWins = (double) this.numOfVictories / this.totalNumberOfGames;
-        this.nunOfDefeats = nunOfDefeats;
     }
 
     public int getNumOfTies() {
@@ -45,8 +45,12 @@ public class UserData {
     }
 
     public void setNumOfTies(int numOfTies) {
+        this.numOfTies = numOfTies;
         this.totalNumberOfGames = this.numOfVictories + this.numOfTies + this.nunOfDefeats;
         this.percentageOfWins = (double) this.numOfVictories / this.totalNumberOfGames;
-        this.numOfTies = numOfTies;
+    }
+
+    public double getPercentageOfWins() {
+        return percentageOfWins;
     }
 }

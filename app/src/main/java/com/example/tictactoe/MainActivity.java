@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.MailTo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;

@@ -49,22 +49,22 @@ public class ChampionsTableListVIewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         User userInPosition = this.users.get(position);
         UserData userDataInPosition = userInPosition.getData();
-        View v = LayoutInflater.from(this.context).inflate(R.layout.custom_champions_table_list_view, parent);
+        View v = LayoutInflater.from(this.context).inflate(R.layout.custom_champions_table_list_view, parent, false);
 
         TextView tvName = v.findViewById(R.id.tvName);
-        tvName.setText(tvName.getText().toString() + userInPosition.getUserName()); // Update tvName to show the user name.
+        tvName.setText(tvName.getText().toString() + " " + userInPosition.getUserName()); // Update tvName to show the user name.
 
         TextView tvNumOfGames = v.findViewById(R.id.tvNumOfGames);
-        tvNumOfGames.setText(tvNumOfGames.getText().toString() + userDataInPosition.getTotalNumberOfGames()); // Update tvNumOfGames to show the total number of games.
+        tvNumOfGames.setText(tvNumOfGames.getText().toString() + " " + userDataInPosition.getTotalNumberOfGames()); // Update tvNumOfGames to show the total number of games.
 
         TextView tvNumOfWins = v.findViewById(R.id.tvNumOfWins);
-        tvNumOfWins.setText(tvNumOfWins.getText().toString() + userDataInPosition.getTotalNumberOfGames()); // Update tvNumOfVictories to show the total number of victories.
+        tvNumOfWins.setText(tvNumOfWins.getText().toString() + " " + userDataInPosition.getNumOfVictories()); // Update tvNumOfVictories to show the total number of victories.
 
         TextView tvNumOfTies = v.findViewById(R.id.tvNumOfTies);
-        tvNumOfTies.setText(tvNumOfTies.getText().toString() + userDataInPosition.getNumOfTies()); // Update tvNumOfTies to show the total number of ties.
+        tvNumOfTies.setText(tvNumOfTies.getText().toString() + " " + userDataInPosition.getNumOfTies()); // Update tvNumOfTies to show the total number of ties.
 
         TextView tvNumOfDefeats = v.findViewById(R.id.tvNumOfDefeats);
-        tvNumOfDefeats.setText(tvNumOfDefeats.getText().toString() + userDataInPosition.getNunOfDefeats()); // Update tvNumOfDefeats to show the total number of defeats.
+        tvNumOfDefeats.setText(tvNumOfDefeats.getText().toString() + " " + userDataInPosition.getNunOfDefeats()); // Update tvNumOfDefeats to show the total number of defeats.
 
         return v;
     }
