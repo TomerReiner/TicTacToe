@@ -41,12 +41,13 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * This function adds another user to the database.
-     * @param username The username of the user.
-     * @param password The password of the user.
-     * @return
-     * @throws
+     * @param user The user.
+     * @return true if the user was successfully added to the database, false if not.
      */
-    public boolean addUser(String username, String password) {
+    public boolean addUser(User user) {
+
+        String username = user.getUserName();
+        String password = user.getPassword();
 
         String query = String.format("INSERT INTO %s VALUES(%s, %s);", TABLE_NAME, username, password);
 
@@ -55,6 +56,8 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(query);
         }
         catch (SQLException e) {
+            /* Catch exception of any kind- Username or password empty or too long(more than 200 characters),
+             or trying to use an existing username. */
             return false;
         }
 
