@@ -54,6 +54,7 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getWritableDatabase();
             db.execSQL(query);
+            db.close();
         }
         catch (SQLException e) {
             /* Catch exception of any kind- Username or password empty or too long(more than 200 characters),

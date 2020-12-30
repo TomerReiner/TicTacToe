@@ -14,7 +14,6 @@ public class Game {
     public static final String TIE_GREET = "Tie.";
     public static final String CIRCLE = "O";
     public static final String X = "X";
-//TODO-add check game over and more methods
     private String[][] board;
 
     public Game() {
