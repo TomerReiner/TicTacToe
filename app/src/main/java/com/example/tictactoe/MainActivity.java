@@ -142,4 +142,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent); // move to PlayerVsComputerActivity.
         }
     }
+
+    /**
+     * This function checks if the user name and pass words are valid.
+     * @param userName The username.
+     * @param password The password.
+     * @param retypePassword The password, typed again.
+     * @return <code>true</code> if the user name in not empty and not taken, and <code>password</code> is not empty and equals to <code>retypePassword</code>. <code>false</code> if not.
+     */
+    private boolean isSignUoValid(String userName, String password, String retypePassword) {
+        return true; // TODO complete
+    }
+
 }

@@ -39,12 +39,12 @@ public class ChampionsTableActivity extends AppCompatActivity {
                 UserData dataO1 = o1.getData();
                 UserData dataO2 = o2.getData();
 
-                double o1PercentageOfWins = dataO1.getPercentageOfWins(); // Get the percentage of wins for user o1.
-                double o2PercentageOfWins = dataO2.getPercentageOfWins(); // Get the percentage of wins for user o2.
+                int o1NumOfVictories = dataO1.getNumOfVictories(); // Get the percentage of wins for user o1.
+                int o2NumOfVictories = dataO2.getNumOfVictories(); // Get the percentage of wins for user o2.
 
-                if (o1PercentageOfWins > o2PercentageOfWins)
+                if (o1NumOfVictories > o2NumOfVictories)
                     return -1;
-                return o1PercentageOfWins == o2PercentageOfWins ? 0 : 1;
+                return o1NumOfVictories == o2NumOfVictories ? 0 : 1;
             }
         });
 
