@@ -42,7 +42,7 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
     /**
      * This function adds another user to the database.
      * @param user The user.
-     * @return true if the user was successfully added to the database, false if not.
+     * @return <code>true<code/> if the user was successfully added to the database, <code>false</code> if not.
      */
     public boolean addUser(User user) {
 
