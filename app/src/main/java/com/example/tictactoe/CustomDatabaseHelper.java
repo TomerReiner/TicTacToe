@@ -33,7 +33,7 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS users (username VARCHAR(200) PRIMARY KEY NOT NULL, password VARCHAR(200) NOT NULL);");
         db.close();
     }
-
+// TODO-add data
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
