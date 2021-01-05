@@ -10,11 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
     private CustomDatabaseHelper dbHelper;
+
+    private CheckBox cbLogInKeepMeLoggedIn;
+    private CheckBox cbSignUpKeepMeLoggedIn;
 
     private Dialog logInDialog;
     private Dialog signUpDialog;
@@ -28,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
         logInDialog = new Dialog(this);
         signUpDialog = new Dialog(this);
+
+        cbLogInKeepMeLoggedIn = findViewById(R.id.cbLogInKeepMeLoggedIn);
+        cbSignUpKeepMeLoggedIn = findViewById(R.id.cbSignUpKeepMeLoggedIn);
+
+        /*
+        TODO- checked listener, write to shared preferences if the user is logged in.
+         */
+
 
         createLogInDialog();
     }

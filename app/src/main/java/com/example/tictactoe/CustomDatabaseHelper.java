@@ -23,17 +23,18 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
 
     public CustomDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+
     }
 
     public CustomDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version, @Nullable DatabaseErrorHandler errorHandler) {
         super(context, name, factory, version, errorHandler);
     }
-
+// TODO-update data columns.
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = String.format("CREATE TABLE IF NOT EXISTS %s (" +
-                "%s VARCHAR(20) PRIMARY KEY NOT NULL, " +
-                "%s VARCHAR(20) NOT NULL, " +
+                "%s TEXT PRIMARY KEY NOT NULL, " +
+                "%s TEXT NOT NULL, " +
                 "%s INTEGER DEFAULT 0, " +
                 "%s INTEGER DEFAULT 0, " +
                 "%s INTEGER DEFAULT 0, " +
