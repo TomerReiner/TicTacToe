@@ -15,6 +15,11 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "users";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String TOTAL_NUM_OF_GAMES = "numOfGames";
+    public static final String NUM_OF_WINS = "numOfWins";
+    public static final String NUM_OF_TIES = "numOfTies";
+    public static final String NUM_OF_DEFEATS = "numOfDefeats";
+    public static final String NUM_OF_POINTS = "numOfPoints";
 
     public CustomDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -26,17 +31,20 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        String query = String.format("CREATE TABLE IF NOT EXISTS %s (" +
-//                "%s VARCHAR(20) PRIMARY KEY NOT NULL, " +
-//                "%s VARCHAR(20) NOT NULL);", TABLE_NAME, USERNAME, PASSWORD);
-
-        db.execSQL("CREATE TABLE IF NOT EXISTS users (username VARCHAR(200) PRIMARY KEY NOT NULL, password VARCHAR(200) NOT NULL);");
+        String query = String.format("CREATE TABLE IF NOT EXISTS %s (" +
+                "%s VARCHAR(20) PRIMARY KEY NOT NULL, " +
+                "%s VARCHAR(20) NOT NULL, " +
+                "%s INTEGER DEFAULT 0, " +
+                "%s INTEGER DEFAULT 0, " +
+                "%s INTEGER DEFAULT 0, " +
+                "%s INTEGER DEFAULT 0, " +
+                "%s INTEGER DEFAULT 0" +
+                ");", TABLE_NAME, USERNAME, PASSWORD, TOTAL_NUM_OF_GAMES, NUM_OF_WINS, NUM_OF_TIES, NUM_OF_DEFEATS, NUM_OF_POINTS);
+        db.execSQL(query);
         db.close();
     }
-// TODO-add data
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     /**
@@ -61,7 +69,6 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
              or trying to use an existing username. */
             return false;
         }
-
         return true;
     }
 }

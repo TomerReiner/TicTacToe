@@ -14,6 +14,8 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
+    private CustomDatabaseHelper dbHelper;
+
     private Dialog logInDialog;
     private Dialog signUpDialog;
 

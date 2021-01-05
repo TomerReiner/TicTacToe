@@ -12,7 +12,6 @@ public class User implements Serializable {
 
     private UserData data;
 
-    // TODO-user data class
     public User(String userName, String password, UserData data) {
         this.userName = userName;
         this.password = password;
