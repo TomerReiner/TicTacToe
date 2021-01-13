@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -8,10 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.sql.SQLOutput;
+
 public class CustomDatabaseHelper extends SQLiteOpenHelper {
 
     public static final int VERSION = 1;
-    public static final String DATABASE_NAME = "Users.db";
+    public static final String DATABASE_NAME = "users.db";
     public static final String TABLE_NAME = "users";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
@@ -21,7 +24,7 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
     public static final String NUM_OF_DEFEATS = "numOfDefeats";
 
     public CustomDatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 0);
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -32,10 +35,9 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
                 "%s INTEGER DEFAULT 0, " +
                 "%s INTEGER DEFAULT 0, " +
                 "%s INTEGER DEFAULT 0, " +
-                "%s INTEGER DEFAULT 0, " +
+                "%s INTEGER DEFAULT 0" +
                 ");", TABLE_NAME, USERNAME, PASSWORD, TOTAL_NUM_OF_GAMES, NUM_OF_WINS, NUM_OF_TIES, NUM_OF_DEFEATS);
         db.execSQL(query);
-        db.close();
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -47,18 +49,19 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
      * @return <code>true<code/> if the user was successfully added to the database, <code>false</code> if not.
      */
     public boolean addUser(User user) {
-
-        String username = user.getUsername();
-        String password = user.getPassword();
-
-        String query = String.format("INSERT INTO %s (%s, %s) VALUES(%s, %s);", TABLE_NAME, USERNAME, PASSWORD, username, password);
-
         try {
+            String username = user.getUsername();
+            String password = user.getPassword();
+
+            ContentValues cv = new ContentValues();
+            cv.put(USERNAME, username);
+            cv.put(PASSWORD, password);
+
             SQLiteDatabase db = getWritableDatabase();
-            db.execSQL(query);
+            db.insert(TABLE_NAME, null, cv);
             db.close();
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             /* Catch exception of any kind- Username or password empty,
              or trying to use an existing username. */
             return false;
@@ -72,27 +75,27 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
      * @return <code>true</code> if the user was successfully logged in, <code>false</code> if not.
      */
     public boolean logIn(User user) {
-        String query = String.format("SELECT %s, %s FROM %s", USERNAME, PASSWORD, TABLE_NAME);
+        String query = String.format("SELECT %s, %s FROM %s;", USERNAME, PASSWORD, TABLE_NAME);
         SQLiteDatabase db = getReadableDatabase();
 
         String username = user.getUsername();
         String password = user.getPassword();
 
         Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
 
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 String currentUsername = cursor.getString(cursor.getColumnIndex(USERNAME));
                 String currentPassword = cursor.getString(cursor.getColumnIndex(PASSWORD));
+
                 if (username.equals(currentUsername) && password.equals(currentPassword)) // If the user was found.
                     return true;
             }
         }
-
+        db.close();
         return false; // No matching user was found.
     }
-
+// TODO-handle sign up exception
     /**
      * This function updates the userdata
      * @param username The username which we want to update its data
@@ -101,13 +104,12 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
      */
     private boolean updateUserData(String username, String column) {
         try {
-
             SQLiteDatabase db = getWritableDatabase();
-            String query = String.format("UPDATE %s SET %s = %s + 1 WHERE %s = %s", TABLE_NAME, column, column, USERNAME, username);
-            db.execSQL(query);
-            db.close();
+            String query = String.format("UPDATE %s SET %s = %s + 1 WHERE %s = ?;", TABLE_NAME, column, column, USERNAME);
+            db.execSQL(query, new String[] {String.valueOf(username)});
+
         }
-        catch (SQLException e) { // Error encountered.
+        catch (Exception e) { // Error encountered.
             return false;
         }
         return true;

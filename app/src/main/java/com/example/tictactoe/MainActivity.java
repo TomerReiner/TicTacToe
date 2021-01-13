@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private User user;
 
-    private SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
-    private SharedPreferences.Editor editor = sharedPreferences.edit();
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
         db = new CustomDatabaseHelper(MainActivity.this);
 
-        String usernameLoggedIn = sharedPreferences.getString(USERNAME, "");
+        logInDialog = new Dialog(MainActivity.this);
+        signUpDialog = new Dialog(MainActivity.this);
 
-        if (usernameLoggedIn.equals("")) // If there is no user logged in.
+        sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        currentUser = sharedPreferences.getString(USERNAME, "");
+
+        if (currentUser.equals("")) // If there is no user logged in.
             createLogInDialog();
     }
 
@@ -171,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
      * @param view the button that was pressed
      */
     public void moveToGame(View view) {
+
+        db.close();
 
         if (currentUser.equals("")) { // If there is no user logged in.
             Toast.makeText(MainActivity.this, "Please log in to continue.", Toast.LENGTH_SHORT).show();

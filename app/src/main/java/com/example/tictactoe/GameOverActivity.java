@@ -14,8 +14,8 @@ public class GameOverActivity extends AppCompatActivity {
     private TextView tvGameOverGreet;
     private Button btnPlayAgain;
 
-    private SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
-    private String username = sharedPreferences.getString(MainActivity.USERNAME, ""); // Get the current username.
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     private CustomDatabaseHelper db;
 
@@ -23,6 +23,10 @@ public class GameOverActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
+
+        sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String username = sharedPreferences.getString(MainActivity.USERNAME, ""); // Get the current username.
 
         db = new CustomDatabaseHelper(GameOverActivity.this);
 
@@ -38,6 +42,7 @@ public class GameOverActivity extends AppCompatActivity {
         btnPlayAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.close();
                 Intent i = new Intent(GameOverActivity.this, MainActivity.class);
                 startActivity(i);
             }

@@ -53,4 +53,15 @@ public class UserData {
         this.totalNumberOfGames = this.numOfVictories + this.numOfTies + this.nunOfDefeats;
         this.points = this.numOfVictories + this.numOfTies / 2;
     }
+
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "totalNumberOfGames=" + totalNumberOfGames +
+                ", numOfVictories=" + numOfVictories +
+                ", nunOfDefeats=" + nunOfDefeats +
+                ", numOfTies=" + numOfTies +
+                ", points=" + points +
+                '}';
+    }
 }
