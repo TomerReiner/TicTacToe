@@ -144,12 +144,4 @@ public class Game {
                 }
         }
     }
-
-    /**
-     * This function checks if X or Circle won the game
-     * @return {@link #CIRCLE_WON} if circle won, {@link #X_WON} if X won, and {@link #TIE} if there is a tie, otherwise {@link #GAME_IS_STILL_GOING_ON}.
-     */
-    public int checkGameOver() {
-        return this.checkForWin();
-    }
 }

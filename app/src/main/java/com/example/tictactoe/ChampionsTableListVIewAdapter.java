@@ -52,7 +52,7 @@ public class ChampionsTableListVIewAdapter extends BaseAdapter {
         View v = LayoutInflater.from(this.context).inflate(R.layout.custom_champions_table_list_view, parent, false);
 
         TextView tvName = v.findViewById(R.id.tvName);
-        tvName.setText(tvName.getText().toString() + " " + userInPosition.getUserName()); // Update tvName to show the user name.
+        tvName.setText(tvName.getText().toString() + " " + userInPosition.getUsername()); // Update tvName to show the user name.
 
         TextView tvNumOfGames = v.findViewById(R.id.tvNumOfGames);
         tvNumOfGames.setText(tvNumOfGames.getText().toString() + " " + userDataInPosition.getTotalNumberOfGames()); // Update tvNumOfGames to show the total number of games.

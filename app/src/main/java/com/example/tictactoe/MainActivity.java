@@ -5,43 +5,44 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CustomDatabaseHelper dbHelper;
+    public static final String USERNAME = "username";
 
-    private CheckBox cbLogInKeepMeLoggedIn;
-    private CheckBox cbSignUpKeepMeLoggedIn;
+    private CustomDatabaseHelper db;
+
+    private String currentUser = "";
 
     private Dialog logInDialog;
     private Dialog signUpDialog;
 
     private User user;
 
+    private SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
+    private SharedPreferences.Editor editor = sharedPreferences.edit();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logInDialog = new Dialog(this);
-        signUpDialog = new Dialog(this);
+        db = new CustomDatabaseHelper(MainActivity.this);
 
-        cbLogInKeepMeLoggedIn = findViewById(R.id.cbLogInKeepMeLoggedIn);
-        cbSignUpKeepMeLoggedIn = findViewById(R.id.cbSignUpKeepMeLoggedIn);
+        String usernameLoggedIn = sharedPreferences.getString(USERNAME, "");
 
-        /*
-        TODO- checked listener, write to shared preferences if the user is logged in.
-         */
-
-
-        createLogInDialog();
+        if (usernameLoggedIn.equals("")) // If there is no user logged in.
+            createLogInDialog();
     }
 
     @Override
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.itemLogOut) {
-            //TODO-Log Out
+        if (item.getItemId() == R.id.itemLogOut) { // If the user wants to log out.
+            editor.putString(USERNAME, "");
+            editor.apply();
         }
         else if (item.getItemId() == R.id.itemChampionTable) {
             Intent moveToChampionsTableActivity = new Intent(MainActivity.this, ChampionsTableActivity.class);
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This function creates the log in dialog, where the user will log in to the app.
      * The dialog won't show if the user is already logged in.
-     * TODO-The dialog won't show if the user is already logged in.
      */
     private void createLogInDialog() {
         logInDialog.setContentView(R.layout.custom_log_in_dialog);
@@ -88,12 +89,19 @@ public class MainActivity extends AppCompatActivity {
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = etLogInUsername.getText().toString();
+                String username = etLogInUsername.getText().toString();
                 String password = etLogInPassword.getText().toString();
 
-                User user = new User(userName, password, new UserData(0, 0, 0));
+                user = new User(username, password, new UserData(0, 0, 0));
 
-                // TODO-On Login.
+                boolean isSuccessfullyLoggedIn = db.logIn(user);
+
+                if (!isSuccessfullyLoggedIn) { // If the login failed.
+                    Toast.makeText(MainActivity.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                currentUser = username;
+                logInUser(currentUser);
                 logInDialog.dismiss(); // This is temporary.
             }
         });
@@ -128,13 +136,31 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO-condition if the user name is valid
-                //TODO-check password valid
-                String userName = etSignUpUsername.getText().toString();
+                String username = etSignUpUsername.getText().toString();
                 String password = etSignUpPassword.getText().toString();
+                String retypePassword = etSignUpRetypePassword.getText().toString();
 
-                User user = new User(userName, password, new UserData(0, 0, 0));
-                signUpDialog.dismiss();
+                if (!isSignUpValid(username, password,retypePassword)) { // If one of the fields is not well filled.
+                    Toast.makeText(MainActivity.this, R.string.log_in_alert, Toast.LENGTH_LONG).show();
+                    etSignUpUsername.setText("");
+                    etSignUpPassword.setText("");
+                    etSignUpRetypePassword.setText(""); // Clear the fields.
+                    return;
+                }
+                // If all the fields are good.
+                user = new User(username, password, new UserData(0, 0, 0));
+
+                boolean isSuccessfullyAddedUser = db.addUser(user);
+
+                if (!isSuccessfullyAddedUser) { // If the user wasn't successfully added.
+                    Toast.makeText(MainActivity.this, "Try using another username.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                currentUser = username;
+                logInUser(currentUser);
+
+                signUpDialog.dismiss(); // Successfully logged in.
             }
         });
         signUpDialog.show();
@@ -145,27 +171,38 @@ public class MainActivity extends AppCompatActivity {
      * @param view the button that was pressed
      */
     public void moveToGame(View view) {
+
+        if (currentUser.equals("")) { // If there is no user logged in.
+            Toast.makeText(MainActivity.this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+        }
+
         if (view.getId() == R.id.btnMoveToPlayerVsPlayer) { // If the button that was pressed is btnMoveToPlayerVsPlayer.
             Intent intent = new Intent(MainActivity.this, PlayerVsPlayerActivity.class);
-            intent.putExtra("user", user); // Sending the user data so we will be able to change them.
             startActivity(intent); // move to PlayerVsPlayerActivity.
         }
         else if (view.getId() == R.id.btnMoveToPlayerVsComputer) {
             Intent intent = new Intent(MainActivity.this, PlayerVsComputerActivity.class);
-            intent.putExtra("user", user); // Sending the user data so we will be able to change them.
             startActivity(intent); // move to PlayerVsComputerActivity.
         }
     }
 
     /**
      * This function checks if the user name and pass words are valid.
-     * @param userName The username.
+     * @param username The username.
      * @param password The password.
      * @param retypePassword The password, typed again.
      * @return <code>true</code> if the user name in not empty and not taken, and <code>password</code> is not empty and equals to <code>retypePassword</code>. <code>false</code> if not.
      */
-    private boolean isSignUoValid(String userName, String password, String retypePassword) {
-        return true; // TODO complete
+    private boolean isSignUpValid(String username, String password, String retypePassword) {
+        return !username.equals("") && password.equals(retypePassword) && !password.equals("");
     }
 
+    /**
+     * This function logs the user in.
+     * @param username The username.
+     */
+    private void logInUser(String username) {
+        editor.putString(USERNAME, username); // Put the user in shared preferences.
+        editor.apply();
+    }
 }

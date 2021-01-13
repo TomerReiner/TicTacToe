@@ -7,23 +7,23 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-    private String userName; // The userName.
+    private String username; // The userName.
     private String password; // The password.
 
     private UserData data;
 
-    public User(String userName, String password, UserData data) {
-        this.userName = userName;
+    public User(String username, String password, UserData data) {
+        this.username = username;
         this.password = password;
         this.data = data;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

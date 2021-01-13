@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="log_in_alert">Please make sure that all the fields are filled and the passwords are equal.</string>
+    <string name="shared_preferences">shared_preferences</string>
 
 
 </resources>

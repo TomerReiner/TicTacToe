@@ -72,14 +72,4 @@
         app:layout_constraintTop_toBottomOf="@+id/etSignUpRetypePassword"
         app:layout_constraintVertical_bias="0.174" />
 
-    <CheckBox
-        android:id="@+id/cbSignUpKeepMeLoggedIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CheckBox"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

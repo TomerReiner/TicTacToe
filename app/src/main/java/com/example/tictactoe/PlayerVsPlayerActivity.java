@@ -37,7 +37,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
 
         game = new Game();
         xTurn = false;
-        victoryStatus = Game.TIE;
+        victoryStatus = Game.GAME_IS_STILL_GOING_ON;
         // Initialize important game variables.
 
         mainLayoutPlayerVsPlayer = findViewById(R.id.mainLayoutPlayerVsPlayer);
@@ -102,7 +102,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
      * This function sets the button background to be x or circle and manages the game.
      */
     private void manageGame(Button btn) {
-        victoryStatus = game.checkGameOver();
+        victoryStatus = game.checkForWin();
         handleGameOver();
         if (xTurn) { // If it's X's turn.
             handleGameOver();
@@ -123,7 +123,6 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
                 tvGameStatus.setText(Game.X_TURN);
                 btn.setClickable(false);
                 handleGameOver();
-                return;
             }
         }
     }
@@ -147,10 +146,9 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
      * If so, it will call {@link #onGameOver}
      */
     private void handleGameOver() {
-        victoryStatus = game.checkGameOver();
+        victoryStatus = game.checkForWin();
         if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) { // If the game is over for any reason.
             onGameOver();
-            return;
         }
     }
 
@@ -169,7 +167,7 @@ public class PlayerVsPlayerActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        victoryStatus = game.checkGameOver();
+        victoryStatus = game.checkForWin();
         if (victoryStatus == Game.GAME_IS_STILL_GOING_ON)
             manageGame(((Button) v));
         else

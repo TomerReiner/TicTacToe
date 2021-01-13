@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,7 +51,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         levelThreeHandler = new LevelThreeHandler(game);
 
         xTurn = false;
-        victoryStatus = Game.TIE;
+        victoryStatus = Game.GAME_IS_STILL_GOING_ON;
         // Initialize important game variables.
 
         mainLayoutPlayerVsComputer = findViewById(R.id.mainLayoutPlayerVsComputer);
@@ -148,7 +149,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
      * This function sets the button background to be x or circle and manages the game.
      */
     private void manageGame(Button btn) {
-        victoryStatus = game.checkGameOver();
+        victoryStatus = game.checkForWin();
         handleGameOver();
 
         if (!xTurn) { // If it's Circle's turn.
@@ -159,7 +160,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                 game.setItemAt(Game.CIRCLE, game.charToInt(btnTag.charAt(0)), game.charToInt(btnTag.charAt(2))); // X took the match index.
                 tvGameStatus.setText(Game.X_TURN);
                 btn.setClickable(false);
-                victoryStatus = game.checkGameOver();
+                victoryStatus = game.checkForWin();
                 handleGameOver();
             }
         }
@@ -167,7 +168,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Ai's turn.
+                // Computers's turn.
                 if (victoryStatus == Game.GAME_IS_STILL_GOING_ON) {
                     int[] locationOfComputersChoice = getMove(); // Get the location of the computer's choice.
                     xTurn = false;
@@ -181,7 +182,6 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
                         btnAiChoice.setClickable(false);
                         tvGameStatus.setText(Game.CIRCLE_TURN);
                         handleGameOver();
-                        return;
                     }
                 }
             }
@@ -224,10 +224,9 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
      * If so, it will call {@link #onGameOver}
      */
     private void handleGameOver() {
-        victoryStatus = game.checkGameOver();
+        victoryStatus = game.checkForWin();
         if (victoryStatus != Game.GAME_IS_STILL_GOING_ON) { // If the game is over for any reason.
             onGameOver();
-            return;
         }
     }
 
@@ -246,7 +245,7 @@ public class PlayerVsComputerActivity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-        victoryStatus = game.checkGameOver();
+        victoryStatus = game.checkForWin();
         if (victoryStatus == Game.GAME_IS_STILL_GOING_ON)
             manageGame(((Button) v));
         else

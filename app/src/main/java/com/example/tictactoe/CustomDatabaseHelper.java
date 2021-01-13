@@ -1,7 +1,7 @@
 package com.example.tictactoe;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -19,17 +19,11 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
     public static final String NUM_OF_WINS = "numOfWins";
     public static final String NUM_OF_TIES = "numOfTies";
     public static final String NUM_OF_DEFEATS = "numOfDefeats";
-    public static final String NUM_OF_POINTS = "numOfPoints";
 
-    public CustomDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-
+    public CustomDatabaseHelper(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, 0);
     }
 
-    public CustomDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version, @Nullable DatabaseErrorHandler errorHandler) {
-        super(context, name, factory, version, errorHandler);
-    }
-// TODO-update data columns.
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = String.format("CREATE TABLE IF NOT EXISTS %s (" +
@@ -39,8 +33,7 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
                 "%s INTEGER DEFAULT 0, " +
                 "%s INTEGER DEFAULT 0, " +
                 "%s INTEGER DEFAULT 0, " +
-                "%s INTEGER DEFAULT 0" +
-                ");", TABLE_NAME, USERNAME, PASSWORD, TOTAL_NUM_OF_GAMES, NUM_OF_WINS, NUM_OF_TIES, NUM_OF_DEFEATS, NUM_OF_POINTS);
+                ");", TABLE_NAME, USERNAME, PASSWORD, TOTAL_NUM_OF_GAMES, NUM_OF_WINS, NUM_OF_TIES, NUM_OF_DEFEATS);
         db.execSQL(query);
         db.close();
     }
@@ -55,10 +48,10 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
      */
     public boolean addUser(User user) {
 
-        String username = user.getUserName();
+        String username = user.getUsername();
         String password = user.getPassword();
 
-        String query = String.format("INSERT INTO %s VALUES(%s, %s);", TABLE_NAME, username, password);
+        String query = String.format("INSERT INTO %s (%s, %s) VALUES(%s, %s);", TABLE_NAME, USERNAME, PASSWORD, username, password);
 
         try {
             SQLiteDatabase db = getWritableDatabase();
@@ -66,10 +59,79 @@ public class CustomDatabaseHelper extends SQLiteOpenHelper {
             db.close();
         }
         catch (SQLException e) {
-            /* Catch exception of any kind- Username or password empty or too long(more than 200 characters),
+            /* Catch exception of any kind- Username or password empty,
              or trying to use an existing username. */
             return false;
         }
         return true;
     }
+
+    /**
+     * This function logs the user in.
+     * @param user The user which we want to log in.
+     * @return <code>true</code> if the user was successfully logged in, <code>false</code> if not.
+     */
+    public boolean logIn(User user) {
+        String query = String.format("SELECT %s, %s FROM %s", USERNAME, PASSWORD, TABLE_NAME);
+        SQLiteDatabase db = getReadableDatabase();
+
+        String username = user.getUsername();
+        String password = user.getPassword();
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String currentUsername = cursor.getString(cursor.getColumnIndex(USERNAME));
+                String currentPassword = cursor.getString(cursor.getColumnIndex(PASSWORD));
+                if (username.equals(currentUsername) && password.equals(currentPassword)) // If the user was found.
+                    return true;
+            }
+        }
+
+        return false; // No matching user was found.
+    }
+
+    /**
+     * This function updates the userdata
+     * @param username The username which we want to update its data
+     * @param column The column which we want to update.
+     * @return <code>true</code> if the update succeeded, <code>false</code> if not.
+     */
+    private boolean updateUserData(String username, String column) {
+        try {
+
+            SQLiteDatabase db = getWritableDatabase();
+            String query = String.format("UPDATE %s SET %s = %s + 1 WHERE %s = %s", TABLE_NAME, column, column, USERNAME, username);
+            db.execSQL(query);
+            db.close();
+        }
+        catch (SQLException e) { // Error encountered.
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param username The username.
+     * @param victoryStatus The victory status.
+     * @return <code>true</code> if the update succeeded, <code>false</code> if not.
+     * @see #updateUserData(String, String)
+     * @see Game
+     */
+    public boolean updateUserData(String username, int victoryStatus) {
+        String column = "";
+        if (victoryStatus == Game.CIRCLE_WON)
+            column = NUM_OF_WINS;
+        if (victoryStatus == Game.TIE)
+            column = NUM_OF_TIES;
+        if (victoryStatus == Game.X_WON)
+            column = NUM_OF_DEFEATS;
+        if (column.equals(""))
+            return false;
+        return updateUserData(username, column) && updateUserData(username, TOTAL_NUM_OF_GAMES);
+    }
+
 }
